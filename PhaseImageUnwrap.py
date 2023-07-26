@@ -52,6 +52,11 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
 
     IOLayout = qt.QFormLayout(IOCategory)
 
+    # Install Dependencies
+    self.dependenciesButton = qt.QPushButton("Install Dependencies")
+    IOLayout.addWidget(self.dependenciesButton)
+    self.dependenciesButton.connect('clicked()', self.installDependencies)
+
     # Input scan plane transform
     self.phaseImageSelector = slicer.qMRMLNodeComboBox()
     self.phaseImageSelector.nodeTypes = ["vtkMRMLScalarVolumeNode"]
@@ -62,7 +67,6 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
     self.phaseImageSelector.setMRMLScene(slicer.mrmlScene)
     IOLayout.addRow("Phase Image: ", self.phaseImageSelector)
 
-    # MRI Start Updating scan target button
     self.unwrapImageButton = qt.QPushButton("Unwrap Image")
     self.unwrapImageButton.toolTip = "Create phase unwrap and gradient images"
     IOLayout.addWidget(self.unwrapImageButton)
@@ -100,3 +104,6 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
     imageUnwrapped.SetSpacing(imagePhase.GetSpacing())
     imageUnwrapped.SetDirection(imagePhase.GetDirection())
     return imageUnwrapped
+    
+  def installDependencies(self):
+    slicer.util.pip_install("scikit-image")
