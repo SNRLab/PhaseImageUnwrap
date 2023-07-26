@@ -47,11 +47,10 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
     ScriptedLoadableModuleWidget.setup(self)
 
     # IO collapsible button
-    IOCollapsibleButton = ctk.ctkCollapsibleButton()
-    IOCollapsibleButton.text = "Input/Output"
-    self.layout.addWidget(IOCollapsibleButton)
+    IOCategory = qt.QWidget()
+    self.layout.addWidget(IOCategory)
 
-    IOLayout = qt.QFormLayout(IOCollapsibleButton)
+    IOLayout = qt.QFormLayout(IOCategory)
 
     # Input scan plane transform
     self.phaseImageSelector = slicer.qMRMLNodeComboBox()
@@ -68,9 +67,6 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
     self.unwrapImageButton.toolTip = "Create phase unwrap and gradient images"
     IOLayout.addWidget(self.unwrapImageButton)
     self.unwrapImageButton.connect('clicked()', self.onUnwrapImage)
-
-    spacer = qt.QSpacerItem(130, 10, qt.QSizePolicy.Maximum)
-    IOLayout.addSpacerItem(spacer)
 
   def onUnwrapImage(self):
     phaseImageNode = self.phaseImageSelector.currentNode()
