@@ -6,7 +6,6 @@ import vtk, qt, ctk, slicer
 from slicer.ScriptedLoadableModule import *
 import SimpleITK as sitk
 import sitkUtils
-from skimage.restoration import unwrap_phase
 from slicer.util import NodeModify
 import numpy as np
 from sys import platform
@@ -97,6 +96,7 @@ class PhaseImageUnwrapWidget(ScriptedLoadableModuleWidget):
     sitkUtils.PushVolumeToSlicer(imagePhaseGrad, name=phaseGradNodeName, className='vtkMRMLScalarVolumeNode')
   
   def phaseUnwrap(self, imagePhase):
+    from skimage.restoration import unwrap_phase
     imagePhaseNP = sitk.GetArrayFromImage(imagePhase)
     imageUnwrappedNP = unwrap_phase(imagePhaseNP)
     imageUnwrapped = sitk.GetImageFromArray(imageUnwrappedNP)
